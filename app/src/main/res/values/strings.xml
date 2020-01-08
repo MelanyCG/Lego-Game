@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">LEGO</string>
+    <string name="score">Score:</string>
+    <string name="map_key" translatable="false">AIzaSyA2ehrZCuJkuJq7GeiHGn1bOvdFInLZYVw</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

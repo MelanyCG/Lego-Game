@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/redbackground"
+    tools:context=".PlayerDetails">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/createyourr" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/legoplayer" />
+
+    <TextView
+        android:layout_marginVertical="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="YOUR NAME"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:textSize="30dp"
+        android:fontFamily="casual"
+        android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/userName"
+            android:layout_marginVertical="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your name"
+            android:textStyle="bold"
+            android:fontFamily="casual"
+            android:textCursorDrawable="@color/red"
+            android:backgroundTint="@color/red"/>
+
+    <TextView
+        android:layout_marginVertical="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="CHOOSE PLAYER : "
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:textColor="@color/red"
+        android:fontFamily="casual"
+        android:padding="0dp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp">
+        <LinearLayout
+            android:id="@+id/players"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+<!--    <Switch-->
+<!--        android:id="@+id/on_off_switch"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:shadowColor="@color/red"-->
+<!--        android:showText="true"-->
+<!--        android:text="Play with sensors "-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:textOff="OFF"-->
+<!--        android:textOn="ON"-->
+<!--        android:fontFamily="casual"-->
+<!--        android:textSize="20sp"-->
+<!--        android:padding="5dp"-->
+<!--        android:textStyle="bold" />-->
+
+    <ImageView
+        android:id="@+id/start_game_btn"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        app:srcCompat="@drawable/playbtnblack" />
+
+
+</LinearLayout>

@@ -1,0 +1,189 @@
+package com.example.mygame;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.media.Image;
+import android.net.sip.SipSession;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+
+
+public class TheGame extends AppCompatActivity {
+    final int IMAGE_SIZE=130;
+    final int BALL_SIZE=120;
+    private ImageView player;
+    private ImageView life1;
+    private ImageView life2;
+    private ImageView life3;
+    private TextView score = null;
+    private ImageView[] balls;
+    private TextView scoreLabel;
+    private RelativeLayout layout;
+    private float ballDownY;
+    private int points = 0;
+
+
+    private int screenWidth;
+    private int screenHeight;
+
+    List<Integer> locationY = Arrays.asList(-350, -700, -1050, -1400, -1600);
+    Random rand = new Random();
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_the_game);
+        scoreLabel = (TextView) findViewById(R.id.scoreText);
+        player = (ImageView) findViewById(R.id.playerView);
+        layout = (RelativeLayout) findViewById(R.id.big_layout);
+//        life1= (ImageView) findViewById(R.id.life1);
+//        life2= (ImageView) findViewById(R.id.life2);
+//        life3= (ImageView) findViewById(R.id.life3);
+        this.score = (TextView) findViewById(R.id.scoreText);
+        //get screen size
+        screenWidth = getScreenWidth();
+        screenHeight = getScreenHeight();
+
+        createBalls();
+
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(20);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Render();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
+
+        t.start();
+
+    }
+
+    private void Render() {
+        changePos();
+        for(int i=0; i<balls.length; i++) {
+            if (Collision(player, balls[i]) && balls[i].getVisibility()==View.VISIBLE) {
+                points++; //You dont need findView Textview score for that exists in OnCreate Method
+                this.score.setText("Score:" + points);
+            }
+        }
+    }
+
+    private boolean Collision(ImageView net, ImageView ball) {
+        Rect BallRect = new Rect();
+        ball.getHitRect(BallRect);
+        Rect NetRect = new Rect();
+        net.getHitRect(NetRect);
+        return BallRect.intersect(NetRect);
+    }
+
+    public void changePos() {
+        // List<Integer> locationX = Arrays.asList(0, 300, 800);
+        //Random rand = new Random();
+        // int curry=0;
+        //down
+        ballDownY = 10;
+        for (int i = 0; i < balls.length; i++) {
+            balls[i].setY(ballDownY + balls[i].getY());
+        }
+        for (int i = 0; i < balls.length; i++) {
+            if (balls[i].getY() > screenHeight) {
+                balls[i].setY(locationY.get(rand.nextInt(locationY.size())));
+
+            }
+        }
+    }
+
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+       if(event.getAction() == MotionEvent.ACTION_MOVE && event.getX() < screenWidth-player.getWidth()){
+           player.setX(event.getX());
+       }
+       return true;
+
+    }
+
+    public int getScreenHeight() {
+        return layout.getResources().getDisplayMetrics().heightPixels;
+    }
+
+    public int getScreenWidth() {
+        WindowManager wm = getWindowManager();
+        Display disp = wm.getDefaultDisplay();
+        final Point size = new Point();
+        disp.getSize(size);
+        return size.x;
+    }
+
+    public void createBalls(){
+        balls= new ImageView[8];
+        float curX=((screenWidth/3)-150);
+        for(int i=0; i<balls.length; i++){
+            balls[i]= new ImageView(this);
+            balls[i].setImageResource(R.drawable.ballforgame);
+            balls[i].setLayoutParams(new android.view.ViewGroup.LayoutParams(BALL_SIZE, BALL_SIZE));
+            balls[i].setY(locationY.get(rand.nextInt(locationY.size())));
+            balls[i].setX(curX);
+            layout.addView(balls[i]);
+            curX=curX+(screenWidth/3);
+            if(i%3==0) {
+                curX = ((screenWidth/3)-150);
+            }
+        }
+    }
+
+    public float padding(){
+        int space = screenWidth-(3*IMAGE_SIZE);
+        return ((space/2)-(IMAGE_SIZE*2));
+    }
+
+    public float ScreenDivision() {
+        return screenWidth / 3;
+    }
+
+    public int num_of_balls(){
+        List<Integer> locationX = Arrays.asList(1, 2);
+        Random rand = new Random();
+        int count = locationX.get(rand.nextInt(locationX.size()));
+        return count;
+    }
+
+    public int random_position(){
+     //   List<Integer> locationX = Arrays.asList(0, getScreenWidth() / 3, (2 * getScreenWidth()) / 3);
+        List<Integer> locationX = Arrays.asList(0,1,2);
+        Random rand = new Random();
+        int locX = locationX.get(rand.nextInt(locationX.size()));
+        return locX;
+    }
+}
